@@ -1,0 +1,27 @@
+{
+  "Teamserver": {
+    "port": 4321,
+    "endpoint": "/endpoint",
+    "password": "pass",
+    "cert": "server.rsa.crt",
+    "key": "server.rsa.key",
+    "extenders": [
+      "extenders/listener_beacon_http/config.json",
+      "extenders/listener_beacon_smb/config.json",
+      "extenders/listener_beacon_tcp/config.json",
+      "extenders/agent_beacon/config.json",
+      "extenders/listener_gopher_tcp/config.json",
+      "extenders/agent_gopher/config.json"
+    ]
+  },
+
+  "ServerResponse": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "text/html; charset=UTF-8",
+      "Server": "AdaptixC2",
+      "Adaptix Version": "v0.3"
+    },
+    "page": "404page.html"
+  }
+}
