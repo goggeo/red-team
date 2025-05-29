@@ -1,10 +1,6 @@
 ## Offensive Security / Red-Teaming
 
-<p align="center">
-  <img src="https://i.pinimg.com/originals/28/d9/a5/28d9a5107af5d4c4da117c05b4393b83.gif" />
-</p>
-
-TTP's, collection of useful tools for pen testing, random notes and knowledge base.
+TTP's, collection of useful tools for pen-testing, red-teaming, random notes and knowledge base.
 
 > [!WARNING]
 >
