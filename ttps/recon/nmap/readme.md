@@ -18,4 +18,4 @@ sudo podman exec nmap nmap -sV --script=vulscan/vulscan.nse !___ip of target___!
 
 ## _SploitScan
 
-Use SploitScan to find information of found CVE's and available exploits to start pen-testing.  Refer to documentation on how to use in the _SploitScan directory.
+Use SploitScan to find information of found CVE's and available exploits to start pen-testing.  Refer to documentation on how to use in the exploits/_SploitScan directory.

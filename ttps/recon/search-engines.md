@@ -28,3 +28,6 @@ http.title:"BIG-IP&reg;- Redirect"
 ```
 
 https://shodan.io/
+
+## proceed to nmap to scan for CVE's against target of opportunity
+
