@@ -1,0 +1,32 @@
+---
+# sudo modprobe tun
+services:
+  ligolo-ng:
+    build: .
+    container_name: ligolo-ng
+    ports:
+      - "8080:8080"  # Web UI
+      - "50051:50051"  # gRPC
+    volumes:
+      - ./config:/config:Z  # Mount configuration directory
+      - /dev/net/tun:/dev/net/tun:Z
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - net_raw
+    network_mode: host  # Use host networking for direct access to network interfaces
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      - TZ=UTC  # Set timezone
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080 || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 10s
