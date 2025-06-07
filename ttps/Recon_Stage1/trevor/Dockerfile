@@ -7,8 +7,7 @@ ARG repo="docker.io" \
     
 FROM ${repo}/${base_image}@sha256:${image_hash}
 
-ENV PATH="${PATH}:/trevorproxy/bin" \
-    PATH="${PATH}:/trevorspray/bin" \
+ENV PATH=/trevorproxy/bin:/trevorspray/bin:/usr/local/bin:/usr/bin:$PATH \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     LC_ALL=C.UTF-8 \
@@ -19,9 +18,18 @@ RUN \
     apk add --no-cache \
         bash \
         curl \
+        sudo \
+        tzdata \
+        coreutils \
+        findutils \
+        grep \
         ca-certificates \
         libgcc \
         libstdc++ \
+        proxychains-ng \
+        git \
+        iptables \
+        iputils \
         openssl \
         openssh \
         libxml2 \
@@ -41,27 +49,12 @@ RUN \
     . trevorspray/bin/activate; \
     python3 -m pip install --upgrade git+https://github.com/blacklanternsecurity/trevorspray; \
     \
-    addgroup -g 65535 trevor; \
-    adduser --shell /sbin/sh --disabled-password -h /home/trevor --uid 65535 --ingroup trevor trevor; \
-    \
     freshclam; \
-    clamscan -rvi -l /home/trevor/last_scan.log --exclude-dir="^/sys" /; \
-    chown trevor:trevor /home/trevor/last_scan.log; \
-    grep -Hrn " FOUND" /home/trevor/last_scan.log; \
+    clamscan -rvi -l last_scan.log --exclude-dir="^/sys" /; \
+    grep -Hrn " FOUND" last_scan.log; \
     \
-    rm -rf /var/cache/apk/* /root/.cache/*; \
-    \
-    chown -R trevor:trevor /trevorproxy; \
-    chown -R trevor:trevor /trevorspray
+    rm -rf /var/cache/apk/* /root/.cache/*
 
-USER trevor
 ARG interface
 ENV INTERFACE=$interface
 CMD [ "sh" ]
-# sudo podman build --build-arg interface=wlo1 -t trevor .
-#sudo podman run --rm -it --name trevor \
-#   --net=host \
-#   --cap-add=net_admin \
-#   --cap-add=net_raw \
-#   --cap-add=sys_nice \
-#   -d trevor
