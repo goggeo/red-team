@@ -22,9 +22,8 @@ RUN \
         ca-certificates \
         libgcc \
         libstdc++ \
-        libcrypto1.1 \
-        libssl1.1 \
-        libcurl \
+        openssl \
+        openssh \
         libxml2 \
         musl-dev \
         linux-headers \
