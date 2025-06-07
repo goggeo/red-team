@@ -44,7 +44,7 @@ RUN MSBuild "Rubeus.sln" /p:Configuration=Release /p:Platform="x64"
 
 FROM compile AS runtime
 WORKDIR /app
-COPY --from=compile /app/x64/Release/Rubeus.exe .
+COPY --from=compile /app/x64/Release .
 
 # Command to run when the container starts
-CMD ["Rubeus.exe"]
+CMD ["powershell.exe"]

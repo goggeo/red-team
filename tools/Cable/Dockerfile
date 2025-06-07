@@ -44,7 +44,7 @@ RUN MSBuild "Cable.sln" /p:Configuration=Release /p:Platform="x64"
 
 FROM compile AS runtime
 WORKDIR /app
-COPY --from=compile /app/x64/Release/Cable.exe .
+COPY --from=compile /app/x64/Release .
 
 # Command to run when the container starts
-CMD ["Cable.exe"]
+CMD ["powershell.exe"]
