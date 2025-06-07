@@ -35,8 +35,6 @@ RUN \
         libxml2 \
         musl-dev \
         linux-headers \
-        clamav \
-        freshclam \
         python3 \
         py3-pip; \
     \
@@ -49,11 +47,8 @@ RUN \
     . trevorspray/bin/activate; \
     python3 -m pip install --upgrade git+https://github.com/blacklanternsecurity/trevorspray; \
     \
-    freshclam; \
-    clamscan -rvi -l last_scan.log --exclude-dir="^/sys" /; \
-    grep -Hrn " FOUND" last_scan.log; \
-    \
-    rm -rf /var/cache/apk/* /root/.cache/*
+    rm -rf /var/cache/apk/* /root/.cache/*; \
+    echo "socks5 127.0.0.1 1080" | sudo tee -a /etc/proxychains/proxychains.conf
 
 ARG interface
 ENV INTERFACE=$interface
