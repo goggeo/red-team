@@ -42,5 +42,6 @@ COPY --from=go-builder /usr/local/bin/go/bin/ /usr/local/bin
 COPY --from=go-builder /clamav_scan.log /home/anchore
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
   CMD curl --fail http://localhost:8080 || exit 1
-CMD ["bash", "-c", "echo 'Ligolo-ng is ready to run!'; exec /usr/local/bin/go/bin/agent -h || exec /usr/local/bin/go/bin/proxy -h"]
+CMD ["bash"]
+#CMD ["bash", "-c", "echo 'Ligolo-ng is ready to run!'; exec agent -h || exec proxy -h"]
 # https://docs.ligolo.ng/Quickstart/
