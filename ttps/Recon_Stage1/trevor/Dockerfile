@@ -53,7 +53,7 @@ RUN \
     rm -rf /var/cache/apk/* /root/.cache/*; \
     \
     chown -R trevor:trevor /trevorproxy; \
-    chown -R trevor:trevor /trevorproxy
+    chown -R trevor:trevor /trevorspray
 
 USER trevor
 ARG interface
