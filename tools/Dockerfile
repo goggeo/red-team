@@ -1,3 +1,4 @@
+# example of loading tools into a container running on a windows system, teardown quickly if needed...
 FROM mcr.microsoft.com/windows/servercore:ltsc2025-amd64
 
 LABEL BaseImage="windows/servercore:ltsc2025-amd64"
@@ -28,13 +29,12 @@ RUN \
 
 WORKDIR /tools/
 
-COPY APEX/ .
-COPY Check-LocalAdminHash/ .
-COPY DomainPasswordSpray/ .
-COPY GraphRunner/ .
-COPY HVNC-windows-remote-toolkit/ .
-COPY MailSniper/ .
-COPY MFASweep/ .
-COPY ShadowHound/ .
+COPY azure/APEX/ .
+COPY misc_windows/Check-LocalAdminHash/ .
+COPY azure/GraphRunner/ .
+COPY misc_windows/HVNC-windows-remote-toolkit/ .
+COPY misc_windows/MailSniper/ .
+COPY azure/MFASweep/ .
+COPY active-directory/ShadowHound/ .
 
 ENTRYPOINT [ "powershell.exe gci -Path c:/tools" ]
