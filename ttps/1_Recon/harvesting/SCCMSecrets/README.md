@@ -1,8 +1,6 @@
 # SCCMSecrets
 
-SCCMSecrets.py is an SCCM policies exploitation tool. It goes beyond NAA credentials extraction, and aims to provide a comprehensive approach regarding SCCM policies exploitation. The tool can be executed from various levels of privileges, and will attempt to uncover potential misconfigurations related to policies distribution. More detail regarding the tool and its usage is available in the associated article:
-https://www.synacktiv.com/publications/sccmsecretspy-exploiting-sccm-policies-distribution-for-credentials-harvesting-initial
-
+SCCMSecrets.py is an SCCM policies exploitation tool. It goes beyond NAA credentials extraction, and aims to provide a comprehensive approach regarding SCCM policies exploitation. The tool can be executed from various levels of privileges, and will attempt to uncover potential misconfigurations related to policies distribution. 
 
 Two subcommands are available: `policies` and `files`.
 
@@ -18,7 +16,10 @@ Note that SCCM policies are associated with collections. Registering a new devic
 Output will be placed in a subdirectory of the `loot` directory (format: `[timestamp]_policies`).
 
 ```
-$ python3 SCCMSecrets.py policies --help
+podman build -t sccmsecrets .
+podman run -it --name sccmsecrets sccmsecrets
+
+$ python3 ./SCCMSecrets.py policies --help
                                                                                                                                                                                         
  Usage: SCCMSecrets.py policies [OPTIONS]                                                                                                                                               
                                                                                                                                                                                         
@@ -92,18 +93,6 @@ $ python3 SCCMSecrets.py files --help
 By default, clients can interact with their Management Point or Distribution Point using plain HTTP. The SCCM installation may however be configured more securely by enforcing the use of HTTPS. When this is the case (for either the Management Point, the Distribution Point, or both), SCCM will require client certificate authentication using an internal PKI certificate with the "client authentication" purpose.
 
 It is still possible to carry out the attacks presented above - however, a valid PKI certificate must be provided through the `--pki-cert` and `--pki-key` flags (PEM format). The Management Point / Distribution Point URLs should also be prefixed by `https://`.
-
-
-
-# Installation
-
-You can install SCCMSecrets.py by cloning the repository and installing the dependencies.
-```
-$ git clone https://github.com/synacktiv/SCCMSecrets
-$ cd SCCMSecrets
-$ python3 -m venv .venv && source .venv/bin/activate
-$ python3 -m pip install -r requirements.txt
-```
 
 
 # Examples
