@@ -41,7 +41,7 @@ RUN \
 ENV PATH="${PATH};C:\BuildTools\MSBuild\Current\Bin"
 
 # Compile the Visual Studio project
-RUN MSBuild "Cable.sln" /p:Configuration=Release /p:Platform="x64"
+RUN MSBuild "SweetPotato.sln" /p:Configuration=Release /p:Platform="x64"
 
 FROM compile AS runtime
 WORKDIR /app

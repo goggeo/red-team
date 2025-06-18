@@ -28,10 +28,11 @@ WORKDIR /app
 # Copy the Visual Studio project files into the container
 COPY . .
 
-SHELL ["powershell.exe"] 
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Install Visual Studio Build Tools
 RUN \
+    Install-WindowsFeature -Name "NET-Framework-45-Core", "Web-Asp-Net45", "Web-Net-Ext45" -IncludeAllSubFeature ; \
     Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/vs_BuildTools.exe" -OutFile "vs_BuildTools.exe"; \
     Start-Process "vs_BuildTools.exe" -ArgumentList "--quiet", "--wait", "--norestart", "--nocache", "--installPath", "C:\BuildTools", "--add", "Microsoft.VisualStudio.Workload.VCTools", "--add", "Microsoft.VisualStudio.Component.VC.Tools.x86.x64", "--add", "Microsoft.VisualStudio.Component.Windows11SDK.22621", "--includeRecommended", "--force" -Verb RunAs -Wait; \
     Remove-Item "vs_BuildTools.exe"

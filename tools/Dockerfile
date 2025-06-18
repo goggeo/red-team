@@ -5,7 +5,7 @@ LABEL BaseImage="windows/servercore:ltsc2025-amd64"
 
 ENV container docker
 ENV chocolateyUseWindowsCompression false
-SHELL ["powershell.exe"]
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 RUN \
     iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')); \
@@ -23,6 +23,7 @@ RUN \
     Get-WuInstall -AcceptAll -IgnoreReboot -IgnoreUserInput -nottitle 'preview' ; \
     Get-WindowsUpdate -Install; \
     \
+    Install-WindowsFeature -Name "NET-Framework-45-Core", "Web-Asp-Net45", "Web-Net-Ext45" -IncludeAllSubFeature ; \
     Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0; \
     Start-Service sshd; \
     New-Item c:\tools
