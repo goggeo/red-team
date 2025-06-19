@@ -2,43 +2,36 @@
 
 MSFTRecon is a reconnaissance tool designed for red teamers and security professionals to map Microsoft 365 and Azure tenant infrastructure. It performs comprehensive enumeration without requiring authentication, helping identify potential security misconfigurations and attack vectors.
 
+## Usage
 
-## Installation
-
+Build image:
 ```bash
-# Clone the repository
-git clone https://github.com/Arcanum-Sec/msftrecon.git
-cd msftrecon
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install requirements
-pip install -r requirements.txt
-chmod +x msftrecon.py
+podman build -t msftrecon .
 ```
 
-## Usage
+Run container:
+```bash
+podman run -it --name msftrecon msftrecon
+```
 
 Basic scan:
 ```bash
-./msftrecon.py -d example.com
+python3 ./msftrecon.py -d example.com
 ```
 
 JSON output:
 ```bash
-./msftrecon.py -d example.com -j
+python3 ./msftrecon.py -d example.com -j
 ```
 
 Government cloud:
 ```bash
-./msftrecon.py -d example.gov --gov
+python3 ./msftrecon.py -d example.gov --gov
 ```
 
 China cloud:
 ```bash
-./msftrecon.py -d example.cn --cn
+python3 ./msftrecon.py -d example.cn --cn
 ```
 
 ## Sample Output

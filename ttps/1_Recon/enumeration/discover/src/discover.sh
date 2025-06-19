@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-
-
 # Special thanks to:
 #  (@jay_townsend1) - everything, conversion from Backtrack to Kali
 # Jason Ashton (@ninewires) - Penetration Testers Framework (PTF) compatibility, bug crusher, and bash ninja
