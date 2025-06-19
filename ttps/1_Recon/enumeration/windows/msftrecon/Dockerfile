@@ -5,7 +5,7 @@ ARG repo="docker.io" \
     
 FROM ${repo}/${base_image}@sha256:${image_hash}
 
-ENV PATH=/msftrecon/bin:/trevorspray/bin:/usr/local/bin:/usr/bin:$PATH \
+ENV PATH=/msftrecon/bin:/usr/local/bin:/usr/bin:$PATH \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     LC_ALL=C.UTF-8 \
