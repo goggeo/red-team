@@ -1,12 +1,12 @@
-name: binja-build-and-push-ghcr
+name: legba-build-and-push-ghcr
 
 on:
   push:
     branches:
       - release
     paths:
-      - 'study/malware/analysis_example/**'
-      - 'study/malware/analysis_example/binja.Dockerfile'
+      - 'ttps/1_Recon/password_sprayers/legba/**'
+      - 'ttps/1_Recon/password_sprayers/legba/Dockerfile'
       - '.trigger_workflow_build'
   workflow_dispatch:
   repository_dispatch:
@@ -78,8 +78,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./study/malware/analysis_example/
-          file: ./study/malware/analysis_example/binja.Dockerfile
+          context: ./ttps/1_Recon/password_sprayers/legba/
+          file: ./ttps/1_Recon/password_sprayers/legba/Dockerfile
           build-args: |
             TARGETPLATFORM=${{ matrix.platform }}
             BUILD_DATE=${{ steps.generate_build_timestamp.outputs.btimestamp }}
@@ -87,7 +87,7 @@ jobs:
           push: true
           provenance: false
           platforms: ${{ matrix.platform }}
-          tags: ghcr.io/${{ github.repository_owner }}/binja:${{ steps.extract_branch.outputs.branch }}${{ steps.arch_tag_suffix.outputs.archtag }}
+          tags: ghcr.io/${{ github.repository_owner }}/legba:${{ steps.extract_branch.outputs.branch }}${{ steps.arch_tag_suffix.outputs.archtag }}
       -
         name: Run Trivy vulnerability scanner
         if: ${{ matrix.platform == 'linux/amd64' }}
@@ -98,7 +98,7 @@ jobs:
         with:
           scan-type: 'image'
           scanners: 'vuln'
-          image-ref: ghcr.io/${{ github.repository_owner }}/binja:${{ steps.extract_branch.outputs.branch }}${{ steps.arch_tag_suffix.outputs.archtag }}
+          image-ref: ghcr.io/${{ github.repository_owner }}/legba:${{ steps.extract_branch.outputs.branch }}${{ steps.arch_tag_suffix.outputs.archtag }}
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'HIGH,CRITICAL'
