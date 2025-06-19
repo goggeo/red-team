@@ -38,10 +38,16 @@ See the project's [wiki](https://netexec.wiki/) (in development) for documentati
 Please see the installation instructions on the [wiki](https://netexec.wiki/getting-started/installation) (in development)
 
 ## Linux
-```
+```bash
+# on host
 sudo apt install pipx git
 pipx ensurepath
 pipx install git+https://github.com/Pennyw0rth/NetExec
+
+# preferably in a container
+podman build -t netexec .
+podman run -it --name netexec netexec
+netexec -h
 ```
 
 ## Availability on Unix distributions

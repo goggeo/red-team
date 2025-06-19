@@ -22,14 +22,13 @@ The primary goal is to identify files exposed due to overly permissive sharing s
 
 ## Installation
 
-1.  Clone the repository:
+1.  Build container image:
     ```bash
-    git clone https://github.com/Friends-Security/Sharefiltrator.git
-    cd Sharefiltrator
+    podman build -t sharefiltrator .
     ```
-2.  (Optional, if dependencies exist) Install required Python packages:
+2.  Run container:
     ```bash
-    pip install -r requirements.txt
+    podman run -it --name sharefiltrator sharefiltrator
     ```
 
 ## Usage
@@ -37,7 +36,7 @@ The primary goal is to identify files exposed due to overly permissive sharing s
 You must extract the `rtFa` and `FedAuth` cookies for your target SharePoint domain (e.g., `yourcompany.sharepoint.com`) from your browser's developer tools after logging in.
 
 ```
-usage: sharefiltrator.py [-h] -d DOMAIN -r RTFA -f FEDAUTH -o OUTPUT_FILE [-q QUERY] [-rq REFINEMENT_FILTERS] [-s SAVE] [-t MAX_THREADS] [-m MAX_SIZE] [-p PRESET]
+usage: python3 sharefiltrator.py [-h] -d DOMAIN -r RTFA -f FEDAUTH -o OUTPUT_FILE [-q QUERY] [-rq REFINEMENT_FILTERS] [-s SAVE] [-t MAX_THREADS] [-m MAX_SIZE] [-p PRESET]
 
 options:
   -h, --help            show this help message and exit
