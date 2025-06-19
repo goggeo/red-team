@@ -29,70 +29,41 @@
 # WAVE 5 ######## SCORE 31337 ################################## HIGH FFFFFFFF #
 ################################################################################
                                                            https://metasploit.com
+```
 
-# to contain msf to user namespace
-sudo addgroup -g 65535 metasploit
-sudo adduser -h /home/metasploit --uid 65535 --ingroup metasploit metasploit
-sudo passwd metasploit
+Nvidia docker/podman support:
+```sh
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
-modprobe tun
-echo tun >>/etc/modules
-echo metasploit:165536:65536 >/etc/subuid
-echo metasploit:165536:65536 >/etc/subgid
+sudo apt-get update
 
-sudo tee /etc/sysctl.d/99-metasploit-pod.conf<<\EOF
-[main]
-summary= <1024 ports for metasploit to use
-[sysctl]
-net.ipv4.ip_unprivileged_port_start=80
-net.ipv4.ip_unprivileged_port_start=443
-net.ipv4.ip_unprivileged_port_start=445
-EOF
+sudo apt-get install -y \
+    linux-headers-$(uname -r) \
+    podman \
+    podman-compose \
+    nvidia-driver \
+    nvidia-cuda-toolkit \
+    nvidia-container-toolkit
 
-sudo sysctl -p /etc/sysctl.d/99-metasploit-pod.conf
+# Set/Check NVIDIA configuration
+nvidia-ctk cdi generate --output=/var/run/cdi/nvidia.yaml
+nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+chmod a+r /var/run/cdi/nvidia.yaml /var/run/cdi/nvidia.yaml 
+nvidia-smi -L
+nvidia-ctk cdi list
+```
 
-sudo -u metasploit bash
+Run with gpu support for faster cracking:
+```sh
+podman-compose up
+```
 
-# local build - just msf without tor configuration
-podman build -t msf .
-podman network create msf
-podman run --rm -it --security-opt=no-new-privileges --network msf --name msf msf
+Without:
+```sh
+podman build -t metasploit .
 
-<<comment
-/
-      redirect all traffic through tor network including dns queries for anonymizing entire system.
-      modify init.sh to configure tor routing
-/
-comment
-
-# generate new hashed torrc password
-# having tor installed on system
-
-tor --hash-password <secret>
-
-vim torctl.sh
-
-# replace in function gen_torrc()
-HashedControlPassword 16:FDE8ED505C45C8BA602385E2CA5B3250ED00AC0920FEC1230813A1F86F
-
-vim init.sh
-
-# optional, uncomment to use
-echo '------------------------------------------'
-echo '[+] ---------------------- Configuring tor'
-echo '------------------------------------------'
-bash -c "/torctl.sh start"
-
-# configure host machine settings for tor routing
-sudo chmod +x torctl_sysctl_host.sh
-./torctl_sysctl_host.sh
-
-# run container with host network stack
-sudo podman run --rm -it --name msf \
-      --net=host \
-      --cap-add=net_admin \
-      --cap-add=net_raw \
-      --cap-add=sys_nice \
-      -p 9040 -p 9053 -p 9051 \
-      -d msf
+podman run -it --name metasploit metasploit
 ```

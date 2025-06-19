@@ -29,10 +29,6 @@ RUN \
 	chmod +x msfinstall; \
 	./msfinstall; \
 	\
-	#wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb; \
-	#dpkg -i packages-microsoft-prod.deb; \
-	#rm packages-microsoft-prod.deb; \
-	\
 	apt-get update -yq; \
 	# add extra packages here, using msf for just exploitation purposes here.
 	apt-get install -y \
@@ -51,30 +47,15 @@ RUN \
 		torsocks \
 		vim \
 		nmap \
+		nikto \
 		wget; \
-		#powershell \
-		#dotnet-sdk-8.0 \
-		#aspnetcore-runtime-8.0; \
 	apt-get clean -y
 
 # copy sploit/tor/wordlist scripts, see README's...
-COPY . /
-
-# tooling install, uncomment to elect which to install
-
-RUN \
-	mkdir -p /root/tooling; \
-	find / -name "*.sh" -exec chmod +x {} \; ; \
-	find / -name "*.py" -exec chmod +x {} \; ; \
-	rm -f *.zip
-
-# move PoC exploits into msf container
-#COPY ../exploits /root/tooling
+COPY --chmod=755 . .
 
 RUN \
 	cp tmux.conf /root/.tmux.conf; \
-	chmod 0755 /init.sh; \
 	python3 -m pip --no-cache-dir install -r ./requirements.txt
 
-WORKDIR /opt
-ENTRYPOINT ["/init.sh"]
+ENTRYPOINT ["bash", "-c", "/init.sh"]

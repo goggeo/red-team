@@ -1,0 +1,20 @@
+---
+networks:
+  metasploit:
+
+services:
+
+  metasploit:
+    build: .
+    container_name: metasploit
+    hostname: metasploit
+    networks: ['metasploit']
+    security_opt: ['no-new-privileges:true']
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
